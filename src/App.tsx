@@ -36,9 +36,24 @@ import {
   Tooltip,
 } from "recharts"
 
+type OrderStatus = "Active" | "Pending" | "Completed" | "Canceled";
+
+interface Order {
+  id: string;
+  client: string;
+  type: string;
+  amount: number;
+  advance: number;
+  status: OrderStatus;
+  step: number;
+  deadline: string;
+  priority: "High" | "Medium" | "Low";
+  location: string;
+}
+
 export default function PrintFlowProDashboard() {
   const [activeView, setActiveView] = useState("dashboard")
-  const [selectedOrder, setSelectedOrder] = useState(null)
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [showNewOrder, setShowNewOrder] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
   const [sidebarOpen, setSidebarOpen] = useState(false)
@@ -48,7 +63,7 @@ export default function PrintFlowProDashboard() {
     "Lamination", "Finishing", "Inspection", "Packing", "Delivery",
   ]
  
-  const orders = [
+  const orders: Order[] = [
     { id: "PF-1001", client: "Metro Mall", type: "Billboard", amount: 240000, advance: 120000, status: "Active", step: 7, deadline: "May 28", priority: "High", location: "Islamabad" },
     { id: "PF-1002", client: "Urban Cafe", type: "Menu Printing", amount: 42000, advance: 42000, status: "Completed", step: 10, deadline: "May 20", priority: "Low", location: "Lahore" },
     { id: "PF-1003", client: "Nova Events", type: "Backdrop", amount: 89000, advance: 35000, status: "Pending", step: 3, deadline: "June 2", priority: "Medium", location: "Karachi" },
@@ -84,7 +99,7 @@ export default function PrintFlowProDashboard() {
     ? { bg: "bg-zinc-950", card: "bg-zinc-900 border-zinc-800", text: "text-white", sub: "text-zinc-400", hover: "hover:bg-zinc-800", sidebar: "bg-black border-zinc-800" }
     : { bg: "bg-zinc-100", card: "bg-white border-zinc-200", text: "text-zinc-900", sub: "text-zinc-500", hover: "hover:bg-zinc-100", sidebar: "bg-white border-zinc-200" }
  
-  const statusColor = (status) => {
+  const statusColor = (status : string) => {
     switch (status) {
       case "Active": return "bg-emerald-500/15 text-emerald-500"
       case "Pending": return "bg-amber-500/15 text-amber-500"
@@ -94,7 +109,7 @@ export default function PrintFlowProDashboard() {
     }
   }
  
-  const StatCard = ({ title, value, icon, growth }) => (
+  const StatCard = ({ title, value, icon, growth } : { title: string; value: number| string; icon: React.ReactNode; growth: string }) => (
     <div className={`rounded-3xl border p-4 sm:p-5 ${theme.card} shadow-[0_0_40px_rgba(0,0,0,0.05)]`}>
       <div className="flex items-center justify-between">
         <div className="min-w-0 flex-1 pr-3">
@@ -116,7 +131,7 @@ export default function PrintFlowProDashboard() {
     { label: "Reports", value: "reports", icon: <BarChart3 className="h-5 w-5" /> },
   ]
  
-  const handleNavClick = (value) => {
+  const handleNavClick = (value: string) => {
     setActiveView(value)
     setSidebarOpen(false)
   }
