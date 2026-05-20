@@ -23,7 +23,7 @@ import {
   X,
   XCircle,
 } from "lucide-react"
- 
+
 import {
   ResponsiveContainer,
   BarChart,
@@ -35,7 +35,7 @@ import {
   YAxis,
   Tooltip,
 } from "recharts"
- 
+
 export default function PrintFlowProDashboard() {
   const [activeView, setActiveView] = useState("dashboard")
   const [selectedOrder, setSelectedOrder] = useState(null)
